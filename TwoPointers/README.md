@@ -26,6 +26,7 @@ Pointers may start from :
 
 ## Template
 
+```java
 int left = 0, right = n-1;
 while (left < right ) {
    //logic 
