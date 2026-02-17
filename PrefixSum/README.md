@@ -2,7 +2,7 @@
 
 ---------------------------------------
 
-Definition:
+## Definition:
 
 Prefix Sum is a technique where we store
 running (cumulative) sum of array elements.
@@ -11,7 +11,7 @@ prefix[i] = sum of elements from index 0 to i
 
 ---------------------------------------
 
-When To Use Prefix Sum?
+## When To Use Prefix Sum?
 
 Use this pattern when question has:
 
@@ -29,7 +29,7 @@ Sliding Window may fail → Prefix Sum works.
 
 ---------------------------------------
 
-Prefix & Suffix Concept :
+## Prefix & Suffix Concept :
 
 Prefix -> sum from left side
 Suffix -> sum from right side
@@ -41,7 +41,7 @@ totalSum = nums[0] + nums[1] + ... + nums[i] + nums[i+1] + ... + nums[n-1]
 
 ---------------------------------------
 
-Flow Logic (TEMPLATE):
+## Flow Logic (TEMPLATE):
 
 Prefix Data Structure
         ↓
@@ -55,15 +55,7 @@ Store / Count / Update Answer
 
 ---------------------------------------
 
-Time Complexity:
-O(n)
-
-Space Complexity:
-O(n)
-
----------------------------------------
-
-Explanation :
+## Explanation :
 
 "I maintain a running prefix sum.
 At every index, I check if there exists
