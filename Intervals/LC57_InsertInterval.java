@@ -2,39 +2,68 @@
 LeetCode 57 - Insert Interval
 
 Problem Statement:
-You are given a list of non-overlapping intervals sorted by start time.
-Insert a new interval into the intervals and merge if necessary.
+You are given a list of non-overlapping intervals
+sorted by their start time.
+
+Insert a new interval into the list
+and merge overlapping intervals if necessary.
 
 Return the updated list of intervals.
 
 ---------------------------------------
 
 Pattern Used:
-Interval Pattern (Sorting + Merging)
+Interval Pattern (Insert + Merge)
 
 Why this pattern?
 - Intervals are already sorted.
-- We insert a new interval in correct position.
-- Then we merge overlapping intervals (same logic as LC 56).
+- After inserting the new interval,
+  overlapping intervals must be merged.
+- Same merging logic as Merge Intervals (LC 56).
 
 ---------------------------------------
 
-Key Idea:
-
-Step 1 → Insert the new interval in correct sorted position.
-Step 2 → Apply merge logic (like Merge Intervals problem).
+Key Observation:
+- First, place the new interval
+  in the correct sorted position.
+- Then traverse the array:
+  - If intervals overlap → merge them.
+  - If not → add previous interval to result.
+- Overlap condition:
+  currentStart <= previousEnd
 
 ---------------------------------------
 
 Approach:
-
-1. Create a new array of size n+1.
-2. Insert the new interval at correct position.
-3. Traverse and merge overlapping intervals.
-4. Convert result list to 2D array and return.
+1. Create a new array of size n + 1.
+2. Insert newInterval at correct sorted position.
+3. Traverse the new array.
+4. Merge overlapping intervals.
+5. Convert result list to 2D array.
+6. Return final merged intervals.
 
 ---------------------------------------
 
+Algorithm:
+1. Let n = intervals.length.
+2. Create new array arr of size n+1.
+3. Insert newInterval in sorted position.
+4. Initialize:
+   start = arr[0][0]
+   end   = arr[0][1]
+5. For each interval from index 1:
+   - If start overlaps (s <= end):
+       end = max(end, e)
+   - Else:
+       add (start, end) to result
+       update start and end
+6. Add last interval.
+7. Return result as 2D array.
+
+---------------------------------------
+
+Code:
+*/
 
 import java.util.*;
 
@@ -48,7 +77,7 @@ class Solution {
         int j = 0;
         boolean inserted = false;
 
-        // Step 1: Insert new interval in correct position
+        // Insert new interval in sorted position
         for (int i = 0; i < n; i++) {
 
             if (!inserted && newInterval[0] < intervals[i][0]) {
@@ -59,13 +88,11 @@ class Solution {
             arr[j++] = intervals[i];
         }
 
-        // If new interval not inserted yet, add at end
         if (!inserted) {
             arr[j] = newInterval;
         }
 
-        // Step 2: Merge intervals (same logic as LC 56)
-
+        // Merge intervals
         List<int[]> result = new ArrayList<>();
 
         int start = arr[0][0];
@@ -76,7 +103,6 @@ class Solution {
             int s = arr[i][0];
             int e = arr[i][1];
 
-            // Overlapping condition
             if (s <= end) {
                 end = Math.max(end, e);
             } 
@@ -87,12 +113,34 @@ class Solution {
             }
         }
 
-        // Add last interval
         result.add(new int[]{start, end});
 
         return result.toArray(new int[result.size()][]);
     }
 }
+
+/*
+---------------------------------------
+
+Example 1:
+
+Input:
+intervals = [[1,3],[6,9]]
+newInterval = [2,5]
+
+Output:
+[[1,5],[6,9]]
+
+---------------------------------------
+
+Example 2:
+
+Input:
+intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]
+newInterval = [4,8]
+
+Output:
+[[1,2],[3,10],[12,16]]
 
 ---------------------------------------
 
@@ -105,8 +153,13 @@ O(n)
 ---------------------------------------
 
 Explanation :
+"I first insert the new interval
+in the correct sorted position.
+Then I apply the merge intervals logic.
+If intervals overlap,
+I merge them by updating the end.
+Otherwise, I add the previous interval
+to the result list."
 
-"I first insert the new interval in sorted order.
-Then I apply the standard merge intervals logic
-to combine overlapping intervals."
+---------------------------------------
 */
