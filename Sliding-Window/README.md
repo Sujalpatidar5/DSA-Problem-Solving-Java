@@ -6,12 +6,12 @@ Sliding Window is a technique used on arrays and strings to solve problems invol
 - Substring
 - Continuous elements
 
-Instead of using nested loops (O(n²)),
-Sliding Window reduces time complexity to O(n).
+Instead of using nested loops **O(n²)**,  
+Sliding Window reduces time complexity to **O(n)**.
 
 ------------------------------------------------------------
 
-When to Use Sliding Window?
+# When to Use Sliding Window?
 
 If the question contains:
 
@@ -22,56 +22,63 @@ If the question contains:
 - At most K / At least K / Exactly K
 - Continuous elements
 
-Then think about Sliding Window.
+Then think about **Sliding Window**.
 
 ------------------------------------------------------------
 
-Types of Sliding Window:
+# Types of Sliding Window
 
 1) Fixed Size Sliding Window  
 2) Variable Size Sliding Window  
 3) Variable Size Sliding Window (Minimum Type)  
-4) Variable Size Sliding Window (Exactly K Type)
+4) Variable Size Sliding Window (Exactly K / AtMost Trick)
 
 ------------------------------------------------------------
 
-1) Fixed Size Sliding Window
+# 1) Fixed Size Sliding Window
 
-When to use:
-- Window size K is already given
-- Example: Maximum sum subarray of size K
+## When to Use
+- Window size **K is already given**
+- Example: **Maximum sum subarray of size K**
 
-Idea:
-- Always maintain exactly K elements in window
-- Slide window one step at a time
+## Idea
+- Always maintain exactly **K elements** in the window
+- Slide the window one step at a time
 
-Window Size Formula:
+## Window Size Formula
+
+```
 windowSize = right - left + 1
+```
 
 ------------------------------------------------------------
 
-Template: Fixed Size Sliding Window
+# Template: Fixed Size Sliding Window
 
-Edge case:
-If (n < k) return something
+### Edge Case
+```
+if (n < k) return something;
+```
 
-Step 1: Build first window
---------------------------------
+### Step 1: Build First Window
 
+```java
 int windowValue = 0;
 
 for (int i = 0; i < k; i++) {
     windowValue += nums[i];
 }
+```
 
-Step 2: Initialize answer
---------------------------------
+### Step 2: Initialize Answer
 
+```java
 int ans = windowValue;
+```
 
-Step 3: Slide the window
---------------------------------
+### Step 3: Slide the Window
 
+```java
 for (int right = k; right < n; right++) {
 
     // Add new element
@@ -85,27 +92,32 @@ for (int right = k; right < n; right++) {
 }
 
 return ans;
+```
 
 ------------------------------------------------------------
 
-2) Variable Size Sliding Window
+# 2) Variable Size Sliding Window
 
-When to use:
-- Window size is NOT fixed
-- Based on condition
-- Example:
-  - Longest substring without repeating characters
-  - Subarray with sum ≤ K
-  - At most K distinct characters
+## When to Use
+- Window size is **NOT fixed**
+- Based on a condition
 
-Main Idea:
-- For loop expands the window
-- While loop shrinks (fixes) the window
+Examples:
+
+- Longest substring without repeating characters
+- Subarray with sum ≤ K
+- At most K distinct characters
+
+## Main Idea
+
+- **For loop → expands the window**
+- **While loop → shrinks / fixes the window**
 
 ------------------------------------------------------------
 
-Template: Variable Size Sliding Window
+# Template: Variable Size Sliding Window
 
+```java
 int left = 0;
 initialize required variables;
 int ans = initial_value;
@@ -118,34 +130,40 @@ for (int right = 0; right < n; right++) {
     // Fix window if condition breaks
     while (window is invalid) {
 
-        remove nums[left] from window
+        remove nums[left] from window;
         left++;
     }
 
     // Window is valid here
-    update answer using (right - left + 1)
+    update answer using (right - left + 1);
 }
 
 return ans;
+```
 
 ------------------------------------------------------------
 
-3) Variable Size Sliding Window (Minimum Type)
+# 3) Variable Size Sliding Window (Minimum Type)
 
-When to use:
+## When to Use
+
 - Minimum length subarray / substring
-- Smallest window satisfying condition
-- Example:
-  - Minimum length subarray with sum ≥ target
+- Smallest window satisfying a condition
 
-Important Rule:
-- For MAX problems → update answer after expanding
-- For MIN problems → update answer while shrinking
+Example:
+
+- Minimum length subarray with sum ≥ target
+
+## Important Rule
+
+- **For MAX problems → update answer after expanding**
+- **For MIN problems → update answer while shrinking**
 
 ------------------------------------------------------------
 
-Template: Minimum Type
+# Template: Minimum Type
 
+```java
 int left = 0;
 initialize required variables;
 int ans = Integer.MAX_VALUE;
@@ -153,7 +171,7 @@ int ans = Integer.MAX_VALUE;
 for (int right = 0; right < n; right++) {
 
     // Expand window
-    include nums[right] into window
+    include nums[right] into window;
 
     // When condition is satisfied
     while (window satisfies condition) {
@@ -171,58 +189,96 @@ if (ans == Integer.MAX_VALUE)
     return 0;
 else
     return ans;
+```
 
 ------------------------------------------------------------
 
-4) Variable Size Sliding Window (Exactly K Type)
+# 4) Variable Size Sliding Window (Exactly K / AtMost Trick)
 
-When to use:
-- Count subarrays / substrings with **exactly K occurrences**
-- Examples:
-  - Exactly K odd numbers
-  - Exactly K distinct numbers
-  - Exactly K ones
-  - Exactly K characters
+## When to Use
 
-Important Idea:
+When the problem asks to **count subarrays or substrings with exactly K occurrences**.
 
-Direct sliding window works well for:
+Examples:
 
-at most K
+- Exactly K odd numbers
+- Exactly K distinct numbers
+- Exactly K ones
+- Exactly K characters
 
-But problems asking **exactly K** are solved using:
+Examples from LeetCode:
 
-Exactly K = AtMost(K) - AtMost(K-1)
+- 1248 — Count Number of Nice Subarrays  
+- 930 — Binary Subarrays With Sum  
+- 992 — Subarrays With K Distinct Integers  
 
-Reason:
+------------------------------------------------------------
 
+## Core Idea
+
+Direct sliding window works easily for:
+
+```
+AtMost K
+```
+
+But problems ask for:
+
+```
+Exactly K
+```
+
+So we convert the problem:
+
+```
+Exactly K = AtMost(K) - AtMost(K - 1)
+```
+
+------------------------------------------------------------
+
+## Why This Works
+
+```
 AtMost(K) includes:
+0, 1, 2, ... , K
+```
 
-0,1,2,...K
-
+```
 AtMost(K-1) includes:
+0, 1, 2, ... , K-1
+```
 
-0,1,2,...K-1
+Subtract:
 
-Subtracting removes smaller cases and leaves only **K**.
+```
+AtMost(K) - AtMost(K-1)
+```
+
+Remaining:
+
+```
+Exactly K
+```
 
 ------------------------------------------------------------
 
-Template: AtMost(K)
+# Template: AtMost(K)
 
+```java
 int left = 0;
 int ans = 0;
+
 initialize required variables;
 
 for (int right = 0; right < n; right++) {
 
     // Expand window
-    include nums[right] into window
+    include nums[right] into window;
 
     // Shrink window if invalid
     while (condition > K) {
 
-        remove nums[left] from window
+        remove nums[left] from window;
         left++;
     }
 
@@ -231,29 +287,63 @@ for (int right = 0; right < n; right++) {
 }
 
 return ans;
+```
 
 ------------------------------------------------------------
 
-Final Pattern for Exactly K
+# Final Pattern for Exactly K
 
+```java
 return atMost(K) - atMost(K - 1);
+```
 
 ------------------------------------------------------------
 
-Time Complexity:
+# Why `ans += (right - left + 1)` ?
+
+Window:
+
+```
+[left ... right]
+```
+
+All subarrays ending at **right**:
+
+```
+[right, right]
+[right-1, right]
+[right-2, right]
+...
+[left, right]
+```
+
+Total:
+
+```
+right - left + 1
+```
+
+------------------------------------------------------------
+
+# Time Complexity
+
+```
 O(n)
+```
 
-Space Complexity:
-O(1) or O(n) depending on extra data structure used
+# Space Complexity
+
+```
+O(1) or O(n)
+```
+
+Depends on the data structure used (HashMap, Set, etc.)
 
 ------------------------------------------------------------
 
-Explanation :
+# Explanation
 
-"I used Sliding Window because the problem
-involves continuous elements.
-Instead of checking all subarrays,
-I maintained a window using two pointers.
-The right pointer expands the window,
-and the left pointer shrinks it when needed.
-This reduces time complexity to O(n)."
+"I used Sliding Window because the problem involves continuous elements.  
+Instead of checking all subarrays, I maintained a window using two pointers.  
+The right pointer expands the window, and the left pointer shrinks it when needed.  
+This reduces the time complexity from O(n²) to O(n)."
