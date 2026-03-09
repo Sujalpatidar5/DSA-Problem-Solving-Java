@@ -30,7 +30,8 @@ Types of Sliding Window:
 
 1) Fixed Size Sliding Window  
 2) Variable Size Sliding Window  
-3) Variable Size Sliding Window (Minimum Type)
+3) Variable Size Sliding Window (Minimum Type)  
+4) Variable Size Sliding Window (Exactly K Type)
 
 ------------------------------------------------------------
 
@@ -173,6 +174,72 @@ else
 
 ------------------------------------------------------------
 
+4) Variable Size Sliding Window (Exactly K Type)
+
+When to use:
+- Count subarrays / substrings with **exactly K occurrences**
+- Examples:
+  - Exactly K odd numbers
+  - Exactly K distinct numbers
+  - Exactly K ones
+  - Exactly K characters
+
+Important Idea:
+
+Direct sliding window works well for:
+
+at most K
+
+But problems asking **exactly K** are solved using:
+
+Exactly K = AtMost(K) - AtMost(K-1)
+
+Reason:
+
+AtMost(K) includes:
+
+0,1,2,...K
+
+AtMost(K-1) includes:
+
+0,1,2,...K-1
+
+Subtracting removes smaller cases and leaves only **K**.
+
+------------------------------------------------------------
+
+Template: AtMost(K)
+
+int left = 0;
+int ans = 0;
+initialize required variables;
+
+for (int right = 0; right < n; right++) {
+
+    // Expand window
+    include nums[right] into window
+
+    // Shrink window if invalid
+    while (condition > K) {
+
+        remove nums[left] from window
+        left++;
+    }
+
+    // Count valid subarrays ending at right
+    ans += (right - left + 1);
+}
+
+return ans;
+
+------------------------------------------------------------
+
+Final Pattern for Exactly K
+
+return atMost(K) - atMost(K - 1);
+
+------------------------------------------------------------
+
 Time Complexity:
 O(n)
 
@@ -190,5 +257,3 @@ I maintained a window using two pointers.
 The right pointer expands the window,
 and the left pointer shrinks it when needed.
 This reduces time complexity to O(n)."
-
-------------------------------------------------------------
