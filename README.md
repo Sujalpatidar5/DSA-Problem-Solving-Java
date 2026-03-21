@@ -7,8 +7,12 @@ This repository contains my clean, interview-ready solutions to important Data S
 - Sliding Window
 - Slow Fast pointers
 - Linked List Reverse pattern
+- HashMap
 - Kadane Algorithm
-
+- Prefix Sum
+- Intervals
+- Stack
+- Binary Search
 
 
 ## Purpose
