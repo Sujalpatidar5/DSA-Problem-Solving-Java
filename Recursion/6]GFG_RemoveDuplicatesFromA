@@ -1,0 +1,103 @@
+/*
+Problem: Remove Duplicates from String (GFG)
+
+-----------------------------------------------------
+
+Problem Statement
+
+Given a string, remove duplicate characters
+and keep only first occurrence.
+
+-----------------------------------------------------
+
+Pattern Used & Why
+
+Pattern: Recursion + Hashing (visited array)
+
+Why:
+- Traverse string recursively
+- Track already used characters
+- Build result using StringBuilder
+
+-----------------------------------------------------
+
+Key Idea
+
+- Use boolean array (map) for visited chars
+- If already visited → skip
+- Else → mark visited and append
+
+-----------------------------------------------------
+
+Algorithm / Process
+
+1. Create boolean map[26]
+2. Traverse string recursively
+3. If char already visited → skip
+4. Else:
+      mark visited
+      append to result
+
+-----------------------------------------------------
+
+Code
+*/
+
+class Solution {
+
+    public static void removeDuplicates(String str, int idx, StringBuilder newStr, boolean map[]) {
+
+        // base case
+        if (idx == str.length()) {
+            System.out.println(newStr);
+            return;
+        }
+
+        char currChar = str.charAt(idx);
+
+        // duplicate
+        if (map[currChar - 'a'] == true) {
+            removeDuplicates(str, idx + 1, newStr, map);
+        } 
+        else {
+            map[currChar - 'a'] = true;
+            newStr.append(currChar);
+            removeDuplicates(str, idx + 1, newStr, map);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        String str = "aabbccdd";
+        removeDuplicates(str, 0, new StringBuilder(""), new boolean[26]);
+    }
+}
+
+/*
+-----------------------------------------------------
+
+Time Complexity
+O(n)
+
+-----------------------------------------------------
+
+Space Complexity
+O(n)
+
+-----------------------------------------------------
+
+Example
+
+Input:
+"aabbcc"
+
+Output:
+"abcd"
+
+-----------------------------------------------------
+
+Short Interview Explanation
+
+Use recursion with visited array.
+Skip duplicates, append first occurrence only.
+*/
