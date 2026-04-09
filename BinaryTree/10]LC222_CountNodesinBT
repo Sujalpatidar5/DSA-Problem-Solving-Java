@@ -1,0 +1,100 @@
+/*
+Problem: Count Nodes in Binary Tree
+
+-----------------------------------------------------
+
+Problem Statement
+
+Given the root of a binary tree,
+count the total number of nodes.
+
+-----------------------------------------------------
+
+Pattern Used & Why
+
+Pattern: DFS (Recursion)
+
+Why:
+- Total nodes = left subtree + right subtree + current node
+- Recursively count all nodes
+
+-----------------------------------------------------
+
+Key Idea
+
+- Count = left count + right count + 1
+
+-----------------------------------------------------
+
+Algorithm / Process
+
+1. If root is null → return 0
+2. Count nodes in left subtree
+3. Count nodes in right subtree
+4. Return left + right + 1
+
+-----------------------------------------------------
+
+Code
+*/
+
+class Solution {
+
+    int countNodes(Node root) {
+
+        // base case
+        if (root == null) return 0;
+
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
+
+        return left + right + 1;
+    }
+}
+
+/*
+-----------------------------------------------------
+
+Time Complexity
+O(n)
+
+-----------------------------------------------------
+
+Space Complexity
+O(n)
+
+-----------------------------------------------------
+
+Example
+
+Input:
+    1
+   / \
+  2   3
+ /
+4
+
+Output:
+4
+
+-----------------------------------------------------
+
+Short Explanation
+
+Count nodes of left subtree + right subtree + current node.
+*/
+
+-----------------------------------------------------
+
+// Definition for Node
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int val) {
+        this.data = val;
+        this.left = null;
+        this.right = null;
+    }
+}
